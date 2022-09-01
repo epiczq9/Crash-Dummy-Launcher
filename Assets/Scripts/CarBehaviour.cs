@@ -35,7 +35,7 @@ public class CarBehaviour : MonoBehaviour
             //Instantiate(driver, driverPos);
             rb.velocity = Vector3.zero;
         }*/
-        speedometer.text = rb.velocity.z.ToString("F1") + " MPH";
+        speedometer.text = rb.velocity.z.ToString("F0");
     }
 
     void FixedUpdate() {
