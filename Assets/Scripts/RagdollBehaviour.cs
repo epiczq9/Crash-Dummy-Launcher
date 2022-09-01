@@ -17,6 +17,7 @@ public class RagdollBehaviour : MonoBehaviour
         Debug.LogError(launchForce);
         rb = hip.GetComponent<Rigidbody>();
         rb.AddForce((Vector3.forward + Vector3.up) * launchForce, ForceMode.VelocityChange);
+        
         joystickGO = GameObject.FindGameObjectWithTag("Joystick");
         joystick = joystickGO.GetComponent<FloatingJoystick>();
     }

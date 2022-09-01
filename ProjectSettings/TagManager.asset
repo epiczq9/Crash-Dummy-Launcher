@@ -13,6 +13,7 @@ TagManager:
   - Ramp
   - GuardRail
   - Target
+  - RoadBlock
   layers:
   - Default
   - TransparentFX

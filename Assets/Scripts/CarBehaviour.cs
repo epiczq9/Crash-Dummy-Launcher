@@ -7,7 +7,8 @@ public class CarBehaviour : MonoBehaviour
 {
     public FloatingJoystick joystick;
     private Rigidbody rb;
-    public float speed = 50f;
+    public float baseSpeed = 0.5f;
+    private float actualSpeed = 0f;
     public float speedWhenCollided;
     private float posX;
 
@@ -28,6 +29,7 @@ public class CarBehaviour : MonoBehaviour
 
     void Start() {
         rb = GetComponent<Rigidbody>();
+        actualSpeed = baseSpeed;
     }
 
     private void Update() {
@@ -43,10 +45,10 @@ public class CarBehaviour : MonoBehaviour
         if (onGround) {
             if (pressToGo) {
                 if (Input.GetButton("Fire1")) {
-                    rb.AddForce(Vector3.forward * speed, ForceMode.VelocityChange);
+                    rb.AddForce(Vector3.forward * actualSpeed, ForceMode.VelocityChange);
                 }
             } else {
-                rb.AddForce(Vector3.forward * speed, ForceMode.VelocityChange);
+                rb.AddForce(Vector3.forward * actualSpeed, ForceMode.VelocityChange);
             }
         }
 
@@ -60,17 +62,22 @@ public class CarBehaviour : MonoBehaviour
                 lrInput = new Vector3(joystick.Horizontal, 0, 0);
                 rb.MovePosition(transform.position + lrInput * rb.velocity.z / 3 * Time.deltaTime);
                 //rb.AddForce(lrInput * speed, ForceMode.VelocityChange);
+                if (Mathf.Abs(joystick.Horizontal) > 0.075f) {
+                    actualSpeed = baseSpeed * 0.75f;
+                }
+                Debug.Log(joystick.Horizontal);
             } else {
                 if (currentTurnAngle != 0) {
                     CorrectTurn();
                 }
+                actualSpeed = baseSpeed;
             }
         }
     }
 
     void CorrectTurn() {
-        if (lerpTime < 1) {
-            currentTurnAngle = Mathf.Lerp(currentTurnAngle, 0, lerpTime);
+        if (lerpTime < 0.5f) {
+            currentTurnAngle = Mathf.Lerp(currentTurnAngle, 0, lerpTime*2);
             transform.eulerAngles = new Vector3(transform.eulerAngles.x, currentTurnAngle, transform.eulerAngles.z);
             lerpTime += Time.deltaTime;
         } else {
@@ -87,10 +94,14 @@ public class CarBehaviour : MonoBehaviour
         if (other.gameObject.CompareTag("Boost")) {
             rb.velocity *= 1.5f;
         }
+        if (other.gameObject.CompareTag("RoadBlock")) {
+            rb.velocity *= 0.95f;
+        }   
         if (other.gameObject.CompareTag("SpeedoMeter")) {
             speedWhenCollided = rb.velocity.z;
             //Debug.LogError(speedWhenCollided);
         }
+        
     }
 
     private void OnCollisionEnter(Collision collision) {
@@ -103,6 +114,10 @@ public class CarBehaviour : MonoBehaviour
             driverLaunched = true;
             Instantiate(driver, driverPos);
             GetComponent<CarBehaviour>().enabled = false;
+        }
+
+        if (collision.gameObject.CompareTag("GuardRail")) {
+            rb.velocity = new Vector3(0, rb.velocity.y, rb.velocity.z);
         }
     }
 
