@@ -7,6 +7,10 @@ TagManager:
   - Boost
   - EndOfRoad
   - Joystick
+  - SpeedoMeter
+  - Car
+  - Ground
+  - Ramp
   layers:
   - Default
   - TransparentFX

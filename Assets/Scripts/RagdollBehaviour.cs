@@ -8,12 +8,29 @@ public class RagdollBehaviour : MonoBehaviour
     public GameObject hip;
     public float launchForce;
     public float horizontalAirForce;
+    private bool hasLanded = false;
+
+    public GameObject joystickGO;
+    public FloatingJoystick joystick;
     void Start() {
+        launchForce = GameObject.FindGameObjectWithTag("Car").GetComponent<CarBehaviour>().speedWhenCollided;
+        //Debug.LogError(launchForce);
         rb = hip.GetComponent<Rigidbody>();
         rb.AddForce((Vector3.forward + Vector3.up) * launchForce, ForceMode.VelocityChange);
+        joystickGO = GameObject.FindGameObjectWithTag("Joystick");
+        joystick = joystickGO.GetComponent<FloatingJoystick>();
     }
 
     void Update() {
-    
+        if(joystick.Horizontal != 0 && !hasLanded) {
+            rb.AddForce(Vector3.right * joystick.Horizontal * horizontalAirForce, ForceMode.VelocityChange);
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision) {
+        if (collision.gameObject.CompareTag("Ground")) {
+            Debug.Log("GROUND");
+            hasLanded = true;
+        }
     }
 }
