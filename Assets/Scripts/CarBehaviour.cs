@@ -13,6 +13,7 @@ public class CarBehaviour : MonoBehaviour
 
     private float currentTurnAngle = 0f;
     private readonly float maxTurnAngle = 15f;
+    private Vector3 lrInput;
 
     private float lerpTime = 0f;
 
@@ -30,9 +31,10 @@ public class CarBehaviour : MonoBehaviour
     }
 
     private void Update() {
-        if (Input.GetButtonDown("Fire2")) {
-            Instantiate(driver, driverPos);
-        }
+        /*if (Input.GetButtonDown("Fire2")) {
+            //Instantiate(driver, driverPos);
+            rb.velocity = Vector3.zero;
+        }*/
         speedometer.text = rb.velocity.z.ToString("F1") + " MPH";
     }
 
@@ -48,22 +50,22 @@ public class CarBehaviour : MonoBehaviour
             }
         }
 
-        
-        if (joystick.Horizontal != 0 && onGround) {
-            currentTurnAngle = maxTurnAngle * joystick.Horizontal;
-            transform.eulerAngles = new Vector3(transform.eulerAngles.x, currentTurnAngle, transform.eulerAngles.z);
-            //posX = (rb.velocity.z * joystick.Horizontal) / 300;
-            //transform.position += new Vector3(posX, 0, 0);
-            Vector3 lrInput = new Vector3(joystick.Horizontal, 0, 0);
-            rb.MovePosition(transform.position + lrInput * rb.velocity.z / 3 * Time.deltaTime);
-        } else {
-            if (currentTurnAngle != 0) {
-                CorrectTurn();
+
+        if (onGround) {
+            if (joystick.Horizontal != 0) {
+                currentTurnAngle = maxTurnAngle * joystick.Horizontal;
+                transform.eulerAngles = new Vector3(transform.eulerAngles.x, currentTurnAngle, transform.eulerAngles.z);
+                //posX = (rb.velocity.z * joystick.Horizontal) / 300;
+                //transform.position += new Vector3(posX, 0, 0);
+                lrInput = new Vector3(joystick.Horizontal, 0, 0);
+                rb.MovePosition(transform.position + lrInput * rb.velocity.z / 3 * Time.deltaTime);
+                //rb.AddForce(lrInput * speed, ForceMode.VelocityChange);
+            } else {
+                if (currentTurnAngle != 0) {
+                    CorrectTurn();
+                }
             }
         }
-        
-
-        
     }
 
     void CorrectTurn() {
@@ -97,6 +99,7 @@ public class CarBehaviour : MonoBehaviour
         }
 
         if (collision.gameObject.CompareTag("EndOfRoad") && !driverLaunched) {
+            rb.velocity = Vector3.zero;
             driverLaunched = true;
             Instantiate(driver, driverPos);
             GetComponent<CarBehaviour>().enabled = false;

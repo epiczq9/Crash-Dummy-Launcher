@@ -6,7 +6,7 @@ public class RagdollBehaviour : MonoBehaviour
 {
     private Rigidbody rb;
     public GameObject hip;
-    public float launchForce;
+    private float launchForce;
     public float horizontalAirForce;
     private bool hasLanded = false;
 
@@ -14,7 +14,7 @@ public class RagdollBehaviour : MonoBehaviour
     public FloatingJoystick joystick;
     void Start() {
         launchForce = GameObject.FindGameObjectWithTag("Car").GetComponent<CarBehaviour>().speedWhenCollided;
-        //Debug.LogError(launchForce);
+        Debug.LogError(launchForce);
         rb = hip.GetComponent<Rigidbody>();
         rb.AddForce((Vector3.forward + Vector3.up) * launchForce, ForceMode.VelocityChange);
         joystickGO = GameObject.FindGameObjectWithTag("Joystick");
@@ -27,9 +27,9 @@ public class RagdollBehaviour : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision) {
-        if (collision.gameObject.CompareTag("Ground")) {
-            Debug.Log("GROUND");
+    public void HasLanded() {
+        if (!hasLanded) {
+            Debug.Log("Target");
             hasLanded = true;
         }
     }

@@ -11,6 +11,8 @@ TagManager:
   - Car
   - Ground
   - Ramp
+  - GuardRail
+  - Target
   layers:
   - Default
   - TransparentFX
