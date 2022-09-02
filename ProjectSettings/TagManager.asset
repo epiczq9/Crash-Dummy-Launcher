@@ -14,6 +14,11 @@ TagManager:
   - GuardRail
   - Target
   - RoadBlock
+  - TargetTier1
+  - TargetTier2
+  - TargetTier3
+  - TargetTier4
+  - TargetTier5
   layers:
   - Default
   - TransparentFX
@@ -23,7 +28,7 @@ TagManager:
   - UI
   - Ragdoll
   - Car
-  - 
+  - CarParts
   - 
   - 
   - 

@@ -28,9 +28,9 @@ public class RagdollBehaviour : MonoBehaviour
         }
     }
 
-    public void HasLanded() {
+    public void HasLanded(string tag) {
+        Debug.Log(tag);
         if (!hasLanded) {
-            Debug.Log("Target");
             hasLanded = true;
         }
     }

@@ -2,15 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Cinemachine;
 
 public class CarBehaviour : MonoBehaviour
 {
     public FloatingJoystick joystick;
     private Rigidbody rb;
+    public float carVelocity = 0f;
     public float baseSpeed = 0.5f;
     private float actualSpeed = 0f;
     public float speedWhenCollided;
     private float posX;
+    public CinemachineVirtualCamera vCam;
 
     private float currentTurnAngle = 0f;
     private readonly float maxTurnAngle = 15f;
@@ -25,8 +28,10 @@ public class CarBehaviour : MonoBehaviour
     public GameObject driver;
     public Transform driverPos;
 
-    public Text speedometer;
+    public GameObject carDestroyed;
+    public Rigidbody[] rbParts;
 
+    public Text speedometer;
     void Start() {
         rb = GetComponent<Rigidbody>();
         actualSpeed = baseSpeed;
@@ -37,7 +42,9 @@ public class CarBehaviour : MonoBehaviour
             //Instantiate(driver, driverPos);
             rb.velocity = Vector3.zero;
         }*/
-        speedometer.text = rb.velocity.z.ToString("F0");
+        carVelocity = rb.velocity.z;
+        speedometer.text = carVelocity.ToString("F0");
+        vCam.GetComponent<CamShake>().ShakeCamera(carVelocity / 200);
     }
 
     void FixedUpdate() {
@@ -65,7 +72,7 @@ public class CarBehaviour : MonoBehaviour
                 if (Mathf.Abs(joystick.Horizontal) > 0.075f) {
                     actualSpeed = baseSpeed * 0.75f;
                 }
-                Debug.Log(joystick.Horizontal);
+                //Debug.Log(joystick.Horizontal);
             } else {
                 if (currentTurnAngle != 0) {
                     CorrectTurn();
@@ -113,6 +120,7 @@ public class CarBehaviour : MonoBehaviour
             rb.velocity = Vector3.zero;
             driverLaunched = true;
             Instantiate(driver, driverPos);
+            DemolishCar();
             GetComponent<CarBehaviour>().enabled = false;
         }
 
@@ -124,6 +132,16 @@ public class CarBehaviour : MonoBehaviour
     private void OnCollisionExit(Collision collision) {
         if (collision.gameObject.CompareTag("Ramp")) {
             onGround = false;
+        }
+    }
+
+    void DemolishCar() {
+        Debug.Log(carVelocity);
+        carDestroyed.SetActive(true);
+        carDestroyed.transform.parent.gameObject.SetActive(false);
+        carDestroyed.transform.parent = null;
+        foreach (Rigidbody rb in rbParts) {
+            rb.AddForce((Vector3.forward + Vector3.up) * 100f, ForceMode.VelocityChange);
         }
     }
 }
