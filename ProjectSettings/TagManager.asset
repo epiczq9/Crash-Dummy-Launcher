@@ -19,6 +19,8 @@ TagManager:
   - TargetTier3
   - TargetTier4
   - TargetTier5
+  - Ragdoll
+  - Score
   layers:
   - Default
   - TransparentFX

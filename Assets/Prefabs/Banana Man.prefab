@@ -58,7 +58,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 4
-  m_FollowOffset: {x: 0, y: 4.67, z: -10}
+  m_FollowOffset: {x: 0, y: 7.1173944, z: -10.035929}
   m_XDamping: 0
   m_YDamping: 0
   m_ZDamping: 0
@@ -256,8 +256,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1383105588}
-  m_LocalRotation: {x: 0.21671714, y: -0, z: -0, w: 0.97623444}
-  m_LocalPosition: {x: 0.000065722386, y: 5.6126065, z: -9.984072}
+  m_LocalRotation: {x: 0.30356696, y: -0.000000028395958, z: 0.000000009047001, w: 0.9528101}
+  m_LocalPosition: {x: 0.000065722386, y: 8.06, z: -10.02}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 138853813}
@@ -1406,7 +1406,7 @@ GameObject:
   - component: {fileID: 4837881062914784543}
   m_Layer: 6
   m_Name: Banana Man
-  m_TagString: Untagged
+  m_TagString: Ragdoll
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1462,6 +1462,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hip: {fileID: 2722712262607990329}
   horizontalAirForce: 0.75
+  verticalAirForce: 0.25
+  tierTarget: null
+  score: 0
   joystickGO: {fileID: 0}
   joystick: {fileID: 0}
 --- !u!54 &-8634200910063763003
@@ -1543,7 +1546,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 533518e7b5bd4ea4baf413d664a1cf3a, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

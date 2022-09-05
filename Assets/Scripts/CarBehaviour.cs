@@ -80,6 +80,10 @@ public class CarBehaviour : MonoBehaviour
                 actualSpeed = baseSpeed;
             }
         }
+
+        if(rb.velocity.z >= 300f) {
+            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, 250f);
+        }
     }
 
     void CorrectTurn() {
@@ -141,7 +145,7 @@ public class CarBehaviour : MonoBehaviour
         carDestroyed.transform.parent.gameObject.SetActive(false);
         carDestroyed.transform.parent = null;
         foreach (Rigidbody rb in rbParts) {
-            rb.AddForce((Vector3.forward + Vector3.up) * 100f, ForceMode.VelocityChange);
+            rb.AddForce((Vector3.forward + Vector3.up) * carVelocity / 4f, ForceMode.VelocityChange);
         }
     }
 }
