@@ -693,10 +693,17 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
+<<<<<<< Updated upstream
             "x": -2619.199951171875,
             "y": -885.5999755859375,
             "width": 152.800048828125,
             "height": 33.5999755859375
+=======
+            "x": -2557.600341796875,
+            "y": -832.0,
+            "width": 152.800048828125,
+            "height": 34.4000244140625
+>>>>>>> Stashed changes
         }
     },
     "m_Slots": [
@@ -1881,7 +1888,11 @@
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
     "m_Hidden": false,
+<<<<<<< Updated upstream
     "m_Value": 7.199999809265137,
+=======
+    "m_Value": 35.0,
+>>>>>>> Stashed changes
     "m_FloatType": 0,
     "m_RangeValues": {
         "x": 0.0,
@@ -2689,7 +2700,11 @@
     "hlslDeclarationOverride": 0,
     "m_Hidden": false,
     "m_Value": {
+<<<<<<< Updated upstream
         "m_SerializedTexture": "{\"texture\":{\"fileID\":2800000,\"guid\":\"462d2c7e916e25e4e88c20cd40bbd39c\",\"type\":3}}",
+=======
+        "m_SerializedTexture": "{\"texture\":{\"fileID\":2800000,\"guid\":\"ab89b5605b596cc409db3a03cfb238bd\",\"type\":3}}",
+>>>>>>> Stashed changes
         "m_Guid": ""
     },
     "m_Modifiable": true,
