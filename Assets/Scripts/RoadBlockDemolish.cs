@@ -38,9 +38,9 @@ public class RoadBlockDemolish : MonoBehaviour
                 roadBlockDestroyed.transform.parent = null;
                 Vector3 launchDir = (transform.position - car.transform.position);
                 launchDir = new Vector3(launchDir.x / 3, 0, Mathf.Abs(launchDir.z));
-                Debug.Log(launchDir);
+                //Debug.Log(launchDir);
                 foreach (Rigidbody rb in rbParts) {
-                    rb.AddForce(launchDir.normalized * carVelocity, ForceMode.VelocityChange);
+                    rb.AddForce(0.8f * carVelocity * launchDir.normalized, ForceMode.VelocityChange);
                     
                 }
             }

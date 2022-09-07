@@ -29,9 +29,12 @@ public class CarBehaviour : MonoBehaviour
     public Transform driverPos;
 
     public GameObject carDestroyed;
+    private bool destroyed = false;
     public Rigidbody[] rbParts;
 
     public Text speedometer;
+
+    public GameObject countdownCanvas;
     void Start() {
         rb = GetComponent<Rigidbody>();
         actualSpeed = baseSpeed;
@@ -82,7 +85,7 @@ public class CarBehaviour : MonoBehaviour
         }
 
         if(rb.velocity.z >= 300f) {
-            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, 250f);
+            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, 300f);
         }
     }
 
@@ -105,14 +108,18 @@ public class CarBehaviour : MonoBehaviour
         if (other.gameObject.CompareTag("Boost")) {
             rb.velocity *= 1.5f;
         }
-        if (other.gameObject.CompareTag("RoadBlock")) {
-            rb.velocity *= 0.95f;
-        }   
         if (other.gameObject.CompareTag("SpeedoMeter")) {
             speedWhenCollided = rb.velocity.z;
             //Debug.LogError(speedWhenCollided);
         }
-        
+        if (other.gameObject.CompareTag("EndArea")) {
+            if (!destroyed) {
+                countdownCanvas.GetComponent<CountdownCanvas>().ActivateCountdown();
+            }
+        }
+        if (other.gameObject.CompareTag("Flower")) {
+            rb.velocity *= 0.9f;
+        }
     }
 
     private void OnCollisionEnter(Collision collision) {
@@ -123,14 +130,22 @@ public class CarBehaviour : MonoBehaviour
         if (collision.gameObject.CompareTag("EndOfRoad") && !driverLaunched) {
             rb.velocity = Vector3.zero;
             driverLaunched = true;
+            destroyed = true;
+            speedometer.gameObject.SetActive(false);
             Instantiate(driver, driverPos);
             DemolishCar();
             GetComponent<CarBehaviour>().enabled = false;
         }
 
         if (collision.gameObject.CompareTag("GuardRail")) {
-            rb.velocity = new Vector3(0, rb.velocity.y, rb.velocity.z);
+            rb.velocity = new Vector3(-rb.velocity.x, rb.velocity.y, rb.velocity.z);
+            rb.AddForce(10 * joystick.Horizontal * Vector3.right, ForceMode.Force);
         }
+
+        if (collision.gameObject.CompareTag("RoadBlock")) {
+            rb.velocity *= 0.9f;
+        }
+
     }
 
     private void OnCollisionExit(Collision collision) {
